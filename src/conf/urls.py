@@ -11,7 +11,6 @@ urlpatterns = patterns('',
     url(r'^(?P<path>.*)/$', 'core.views.direct_to_template', name='page'),
 
     # Administrative components
-    # url(r'^grappelli/', include('grappelli.urls')),
     # url(r'^admin/', include(admin.site.urls)),
 )
 

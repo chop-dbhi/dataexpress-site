@@ -17,7 +17,6 @@ INSTALLED_APPS = (
     'core',
 
     # third-party apps
-    # 'grappelli',
     # 'siteauth',
     # 'south',
     
@@ -38,9 +37,7 @@ INSTALLED_APPS = (
 #
 
 # Admins receive any error messages by email if DEBUG is False
-ADMINS = (
-    ('Byron Ruth', 'ruthb@email.chop.edu'),
-)
+ADMINS = ()
 
 # Managers receive broken link emails if SEND_BROKEN_LINK_EMAILS is True
 MANAGERS = ADMINS
@@ -59,6 +56,7 @@ TEMPLATE_DEBUG = DEBUG
 #
 
 DATABASES = {}
+
 
 #
 # LOCALITY
@@ -90,15 +88,12 @@ USE_L10N = True
 # STATIC AND MEDIA
 # The application's static files should be placed in the STATIC_ROOT in
 # addition to other static files found in third-party apps. The MEDIA_ROOT
-# is intended for user uploaded files. DOCUMENT_ROOT contains the top-level
-# static files and acts as a fallback for files
-#
+# is intended for user uploaded files.
 
-DOCUMENT_ROOT = os.path.join(PROJECT_PATH, '_site')
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = os.path.join(DOCUMENT_ROOT, 'media')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '_site/media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -109,7 +104,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = os.path.join(DOCUMENT_ROOT, 'static')
+STATIC_ROOT = os.path.join(PROJECT_PATH, '_site/static')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -198,7 +193,7 @@ MIDDLEWARE_CLASSES = (
 
 SUPPORT_EMAIL = 'support@example.com'
 DEFAULT_FROM_EMAIL = 'support@example.com'
-EMAIL_SUBJECT_PREFIX = '[Harvest Site] '
+EMAIL_SUBJECT_PREFIX = '[DataExpres Site] '
 
 
 #
@@ -238,7 +233,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique',
-        'KEY_PREFIX': 'harvestio',
+        'KEY_PREFIX': 'dataexpress',
         'VERSION': 1,
     }
 }
@@ -254,7 +249,7 @@ CACHE_MIDDLEWARE_KEY_PREFIX = ''
 # SESSIONS AND COOKIES
 #
 
-CSRF_COOKIE_NAME = 'csrftoken'
+CSRF_COOKIE_NAME = 'dataexpress_csrftoken'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_COOKIE_AGE = 60 * 20 # 20 minutes
@@ -268,7 +263,7 @@ SESSION_SAVE_EVERY_REQUEST = False
 #
 
 USE_ETAGS = True
-SEND_BROKEN_LINK_EMAILS = True
+SEND_BROKEN_LINK_EMAILS = False
 IGNORABLE_404_ENDS += ('robots.txt', 'favicon.ico')
 
 # django-registration2

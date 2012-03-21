@@ -23,5 +23,5 @@
     // listed here. below shows an example for a 'main' module. if this is
     // defined and depends on the 'cilantro/main' module, ensure this is
     // excluded during the optimization step. 
-    modules: []
+    // modules: []
 })
