@@ -1,12 +1,47 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class=row>
-        <div class=span6>
-            <h1>Hello...</h1>
-        </div>
-        <div class=span6>
-            <h1>Data Express Fans!</h1>
-        </div>
+<div class="hero-unit">
+        <h1>DataExpress <span class="label label-important">BETA</span></h1>
+            
+            <p>A Simple, Scala-based, cross-database ETL tooolkit
+                </p><p>​<a class="btn btn-primary btn-large" href="/quickstart">​Quick Start</a></p>  
+</div>
+<div class="row-fluid">
+  <div class="span6">
+    <h2>Oracle to Postgres? No Problem.</h2>
+        <p>It's not always easy to quickly move data between two different
+            relational database platforms. Whether you need to copy a single table 
+            or the results of an intricate query, DataExpress can make the process
+            simple. Out of the box, it supports <strong>mySQL</strong>, <strong>PostgreSQL</strong>,
+            <strong>Oracle</strong>, and <strong>MS SQL Server</strong>. (SQLite coming soon!)</p>
+        </p>
+  </div>
+  <div class="span6">
+    <h2>Built for Programmers</h2>
+        <p>There are plenty of GUI-based ETL tools that let you move and manipulate data across 
+            databases. However, if you're the sort of person who finds it easier to whip up a quick Perl, 
+            Python, or Ruby script to get the job done, DataExpress was made for you. 
+            Thanks to <strong>Scala's scripting capabilities</strong> and a <strong>custom domain specific language (DSL)</strong>, 
+            DataExpress is well suited for quick scripts and easy experimentation.</p>
+  </div>
+</div>
+<div class="row-fluid">
+    <div class="span6">
+      <h2>SQL All the Way</h2>
+          <p>The best DSL for interacting with relational database tables is SQL. DataExpress embraces SQL instead of hiding
+              queries behind an ORM or yet another language you have to learn. It uses SQL for things that work best with SQL
+              and Scala for things that work best with Scala.
+          </p>
     </div>
-{% endblock %}
+<div class="span6">
+         <h2>Minimal Configuration</h2>
+         <p>Sensible defaults combined with extensive use of database metadata means you won't waste time
+             describing database tables in XML or writing a bunch of code describing things that can be easily
+             inferred from the database itself. Of course, if you need to override a setting or otherwise get under the hood,
+             you can do that too. 
+         </p>
+     </div>
+</div>
+
+{% endblock %}  
