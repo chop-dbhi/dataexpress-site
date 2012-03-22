@@ -229,14 +229,16 @@ LOGGING = {
 #
 
 # For production environments, the memcached backend is highly recommended
-CACHES = {
-    'default': {
+# override in local_settings to develop with caching turned on
+if not DEBUG:
+    CACHES = {
+        'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'unique',
         'KEY_PREFIX': 'dataexpress',
         'VERSION': 1,
+        }
     }
-}
 
 CACHE_MIDDLEWARE_SECONDS = 60 * 20 # 20 minutes
 
