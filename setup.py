@@ -72,13 +72,13 @@ version = __import__(BASE_PACKAGE).get_version()
 
 setup(
     version = version,
-    name = '',
-    author = '',
-    author_email = '',
-    description = '',
-    license = '',
-    keywords = '',
-    url = '',
+    name = 'dataexpress-site',
+    author = 'Aaron Masino, Michael Italia, LeMar Davidson',
+    author_email = 'cbmisupport@email.chop.edu',
+    description = 'Data Express documentation site',
+    license = 'BSD',
+    keywords = 'dataexpress etl',
+    url = 'http://dataexpress.research.chop.edu',
 
     packages = packages,
     cmdclass = cmdclasses,
