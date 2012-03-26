@@ -1,11 +1,67 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class=row>
-        <div class=span12>
-            <h1>About</h1>
 
-            <p>Test</p>
-        </div>
+
+<!-- TODO: Need to mark up a whole lot of things with a bunch of hyperlinks out to other sources -->
+
+<h1>About</h1>
+    <div class="page-header">
+        <h2>What is DataExpress?</h2>
     </div>
+    <p>DataExpress is a <a href="http://www.scala-lang.org/">Scala</a> toolkit for writing Extract, Transform, and Load (ETL) procedures. DataExpress includes a domain specific language (DSL) that covers common ETL operations such as copying the results of a SQL query from one relational database to another.</p>
+    <div class="page-header">
+        <h2>Motivation
+            <small>Doesn't something like this exist already?</small>
+        </h2>
+    </div>
+    <p>The world certainly does not suffer from a dearth of ETL tools. There is however a big gap in what is available. On one end, you
+    have the traditional large-scale Java-based ETL frameworks that are designed for large, repeatable processes. On the other, there are a
+    number of tools (such as Brew for Python) that are more lightweight. However, neither solution was a terribly good fit for the
+    use case that we have. Most of the Java-based ETL tools have great cross-database support (thanks to JDBC), but require a big 
+    upfront time investment for even simple ETL tasks. Tools built in Perl, Python, or Ruby would be nice, but all these languages are really
+    hard to get set up if you have obscure database drivers and wrappers.</p>
+    <p>We wanted the programming simplicity and expressiveness offered by languages like Python, Perl, or Ruby. We also wanted to avoid the 
+    boilerplate, build tools, IDE's, and configuration files needed by most Java projects. However, the enterprise-class
+    database support offered by the hundreds of available JDBC drivers on the Java Virtual Machine is hard to beat, and easy to drop in 
+    for projects running on the JVM.</p>
+    <div class="page-header">
+        <h2>Scala Implementation
+            <small>Why didn't you pick &lt;my_favorite_language&gt;?</small>
+        </h2>
+    </div>
+    <p>We chose Scala primarily because it offered a balance of features in line with our goals, namely:</p>
+    <ul>
+       <li><strong>JDBC Drivers and Other Libraries</strong>: Scala runs on the JVM and can use libraries developed originally for Java. This means
+       DataExpress can easily use the hundreds of JDBC database drivers available as well as things like Apache POI for Excel file access.</li>
+       <li><strong>Scripting Support</strong>: Scala offers the ability to write programs as scripts so that there's no need for an explicit compilation step. Scripts can be edited quickly with just a text editor.</li>
+        <li><strong>Expressive Syntax with Type Inference</strong>: Scala offers a syntax with many features users of languages such as Python and Ruby have come to expect. While strongly-typed, much of Scala's type system remains behind the scenes most of the time thanks to solid type inference.</li>
+        <li><strong>Support for Domain Specific Languages</strong>: One of the design goals of Scala is to support Domain Specific Languages (DSL's). We felt strongly that many common ETL functions could be rolled up into a convenient syntax, and this capability makes DataExpress more accessible to 
+people who might otherwise not be as comfortable with some of Scala's more advanced features.</li>
+       <li><strong>Performance</strong>: Scala has been designed from the ground-up for maximum performance. While we don't yet take advantage of
+       the many parallelization features the language has to offer, we think this offers substantial future potential</li>
+    </ul>
+    <div class="page-header">
+        <h2>Do I need to learn Scala?</h2>
+    </div>
+        <p>While any amount of Scala or Java knowledge will be to your benefit, especially when debugging your scripts, the amount of Scala you need to know will vary depending on what you want to accomplish. We have tried very hard to make the DSL for DataExpress work in a way that is familiar to someone who has some experience in Perl, Python, or Ruby but isn't necessarily a Java or Scala expert. That said, if you have very complex transformation logic that you need to code up, there's no getting around the need to write some Scala. DataExpress is meant to abstract away all the glue code you need to write in order to work with relational databases in the JVM. But it doesn't magically make complex programming logic easy. </p>
+    <div class="page-header">
+        <h2>Target Audience
+        </h2>
+    </div>
+<p>We created DataExpress to fit usage scenarios we encounter all the time. It's important to realize that depending on your needs, it may not
+be the best fit for what you want to do. In general, the more of the following that are true for you, the more likely you'll feel at home 
+with DataExpress:</p>
+       <ul>
+            <li>Need to perform simple ETL tasks like copying the results of queries or whole tables</li>
+            <li>Need to access a variety of relational database systems which may not have a driver available for your operating system</li>
+            <li>Prefer high level languages like Python, Perl, or Ruby</li>
+            <li>Need to write scripts that do not justify a large time investment</li>
+       </ul>
+
+    <div class="page-header">
+        <h2>Getting Started
+            <small>Sounds great, I'm in</small>
+        </h2>
+<p>The easiest way to get started is to go through our Quick Start guide which will tell you all you need to know to get up and running.</p>
 {% endblock %}
