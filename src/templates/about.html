@@ -17,17 +17,17 @@
     </div>
     <p>The world certainly does not suffer from a dearth of ETL tools. There is however a big gap in what is available. On one end, you
     have the traditional large-scale Java-based ETL frameworks that are designed for large, repeatable processes. On the other, there are a
-    number of tools (such as Brew for Python) that are more lightweight. However, neither solution was a terribly good fit for the
+    number of tools (such as <a href="http://www.databrewery.org/">Data Brewery</a> for Python) that are more lightweight. However, neither solution was a terribly good fit for the
     use case that we have. Most of the Java-based ETL tools have great cross-database support (thanks to JDBC), but require a big 
     upfront time investment for even simple ETL tasks. Tools built in Perl, Python, or Ruby would be nice, but all these languages are really
-    hard to get set up if you have obscure database drivers and wrappers.</p>
+    hard to get set up if you have obscure database drivers and wrappers.<<>/p>
     <p>We wanted the programming simplicity and expressiveness offered by languages like Python, Perl, or Ruby. We also wanted to avoid the 
     boilerplate, build tools, IDE's, and configuration files needed by most Java projects. However, the enterprise-class
     database support offered by the hundreds of available JDBC drivers on the Java Virtual Machine is hard to beat, and easy to drop in 
     for projects running on the JVM.</p>
     <div class="page-header">
         <h2>Scala Implementation
-            <small>Why didn't you pick &lt;my_favorite_language&gt;?</small>
+            <small>Why didn't you pick INSERT_FAVORITE_LANGUAGE_HERE?</small>
         </h2>
     </div>
     <p>We chose Scala primarily because it offered a balance of features in line with our goals, namely:</p>
@@ -63,5 +63,5 @@ with DataExpress:</p>
         <h2>Getting Started
             <small>Sounds great, I'm in</small>
         </h2>
-<p>The easiest way to get started is to go through our Quick Start guide which will tell you all you need to know to get up and running.</p>
+<p>The easiest way to get started is to go through our <a href="/quickstart.html">Quick Start</a> guide which will tell you all you need to know to get up and running.</p>
 {% endblock %}
