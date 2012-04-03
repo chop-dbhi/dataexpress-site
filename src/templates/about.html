@@ -4,9 +4,10 @@
 
 
 <!-- TODO: Need to mark up a whole lot of things with a bunch of hyperlinks out to other sources -->
-
+<div class="page-header">
 <h1>About</h1>
-    <div class="page-header">
+</div>
+<div class="page-header">
         <h2>What is DataExpress?</h2>
     </div>
     <p>DataExpress is a <a href="http://www.scala-lang.org/">Scala</a> toolkit for writing Extract, Transform, and Load (ETL) procedures. DataExpress includes a domain specific language (DSL) that covers common ETL operations such as copying the results of a SQL query from one relational database to another.</p>
@@ -15,16 +16,15 @@
             <small>Doesn't something like this exist already?</small>
         </h2>
     </div>
-    <p>The world certainly does not suffer from a dearth of ETL tools. There is however a big gap in what is available. On one end, you
-    have the traditional large-scale Java-based ETL frameworks that are designed for large, repeatable processes. On the other, there are a
-    number of tools (such as <a href="http://www.databrewery.org/">Data Brewery</a> for Python) that are more lightweight. However, neither solution was a terribly good fit for the
-    use case that we have. Most of the Java-based ETL tools have great cross-database support (thanks to JDBC), but require a big 
-    upfront time investment for even simple ETL tasks. Tools built in Perl, Python, or Ruby would be nice, but all these languages are really
-    hard to get set up if you have obscure database drivers and wrappers.<<>/p>
-    <p>We wanted the programming simplicity and expressiveness offered by languages like Python, Perl, or Ruby. We also wanted to avoid the 
-    boilerplate, build tools, IDE's, and configuration files needed by most Java projects. However, the enterprise-class
-    database support offered by the hundreds of available JDBC drivers on the Java Virtual Machine is hard to beat, and easy to drop in 
-    for projects running on the JVM.</p>
+    <p>The world certainly does not suffer from a dearth of ETL tools. Most tools fall into one of two categories. On one end, there are traditional
+    large-scale ETL frameworks (such as <a href="http://kettle.pentaho.com/">Pentaho Kettle</a> or <a href="http://www.informatica.com/us/">Informatica</a>) that 
+    are designed for big, repeatable processes. On the other end of the spectrum, there are a number of tools like <a href="http://www.databrewery.org/">Data Brewery</a> that are more 
+    lightweight. However, we found that neither kind of solution was a solid fit for many of the use cases we have had. Many Java-based ETL tools have 
+    great cross-database support (thanks to <a href="http://www.oracle.com/technetwork/java/overview-141217.html">JDBC</a>), but require a big upfront time investment for simple ETL tasks. Tools built in Perl, Python, or Ruby
+    can be more productive for simple tasks, but it is often hard to configure obscure database drivers and wrappers.</p>
+    <p>The enterprise-class database support offered by the hundreds of available JDBC drivers on the Java Virtual Machine is hard to ignore. We sought the programming
+        simplicity and expressiveness offered by languages like Python, Perl, or Ruby. But at the same time, we also wanted to avoid the 
+    boilerplate, build tools, IDE's, and configuration files that are common in many Java projects. </p>
     <div class="page-header">
         <h2>Scala Implementation
             <small>Why didn't you pick INSERT_FAVORITE_LANGUAGE_HERE?</small>
@@ -33,7 +33,7 @@
     <p>We chose Scala primarily because it offered a balance of features in line with our goals, namely:</p>
     <ul>
        <li><strong>JDBC Drivers and Other Libraries</strong>: Scala runs on the JVM and can use libraries developed originally for Java. This means
-       DataExpress can easily use the hundreds of JDBC database drivers available as well as things like Apache POI for Excel file access.</li>
+       DataExpress can easily use the hundreds of JDBC database drivers that are available as well as things like <a href="http://poi.apache.org/">Apache POI</a> for Excel file access.</li>
        <li><strong>Scripting Support</strong>: Scala offers the ability to write programs as scripts so that there's no need for an explicit compilation step. Scripts can be edited quickly with just a text editor.</li>
         <li><strong>Expressive Syntax with Type Inference</strong>: Scala offers a syntax with many features users of languages such as Python and Ruby have come to expect. While strongly-typed, much of Scala's type system remains behind the scenes most of the time thanks to solid type inference.</li>
         <li><strong>Support for Domain Specific Languages</strong>: One of the design goals of Scala is to support Domain Specific Languages (DSL's). We felt strongly that many common ETL functions could be rolled up into a convenient syntax, and this capability makes DataExpress more accessible to 
@@ -64,4 +64,12 @@ with DataExpress:</p>
             <small>Sounds great, I'm in</small>
         </h2>
 <p>The easiest way to get started is to go through our <a href="/quickstart.html">Quick Start</a> guide which will tell you all you need to know to get up and running.</p>
+<div class="alert alert-info">
+<p><span class="label label-important">Important</span></p>
+
+<p>DataExpress is still in very early stages of development. We consider this beta software and expect that many components, including the DSL and API may
+change over time. That being said, we are getting a lot of use out of it in its current form and wanted to share it (warts and all) with a wider audience. <strong>Please
+    be mindful of this status when considering its use in production</strong>.</p>
+</div>
+    
 {% endblock %}

@@ -1,11 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class=row>
-        <div class=span12>
-            <h1>Quick Start</h1>
-
-            <p>Test</p>
-        </div>
-    </div>
+<div class="page-header">
+<h1>Quick Start</h1>
+</div>
+<div class="page-header">
+<h2>Getting Set up</h2>
+</div>
+<pre>
+-Install Scala
+-Install DataExpress
+-Get JDBC driver for SQLite
+-Test installation
+-Get the test database
+-Set up database properties file (provide download links to ones for others)
+-Introduce Scala Interpreter
+</pre>
+<div class="page-header">
+<h2>Copying a Table</h2>
+</div>
+-Show example of copy from one db to another using DSL
+<div class="page-header">
+<h2>Copying a SQL statement</h2>
+</div>
+-Show example of copying a SQL statement from one db to another using the DSL
+<div class="page-header">
+<h2>Copy with transform</h2>
+</div>
+-Show example of copying a SQL statement from one db to another using some Scala
+transformation logic
+<div class="page-header">
+<h2>Copy between different database implementations</h2>
+</div>
+<pre>
+    -Users need to have an Oracle, MySQL, Postgres, or SQL Server instance handy (can point to free versions of all of them)
+    -Re-run table copy commands and verify
+</pre>
+<div class="page-header">
+<h2>Working with DataExpress Scripts</h2>
+</div>
+Introduce scripting and show how to set up the classpath so JDBC drivers can work.
 {% endblock %}
