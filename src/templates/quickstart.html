@@ -7,10 +7,92 @@
 <div class="page-header">
 <h2>Getting Set up</h2>
 </div>
-<pre>
--Install Scala
--Install DataExpress
--Get JDBC driver for SQLite
+<h3>Step 1: Install Java</h3>
+<p>You are likely to have the Java runtime on your machine already, but if you need to install
+    it, you can download it (version 1.5 or greater) 
+    <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre-7u3-download-1501631.html">directly from Oracle</a>.</p>
+    <p><span class="label label-info">Mac OS X Note</span></p>
+    <p>If you are running Mac OS X, the Java runtime is shipped by Apple. You can ensure it is installed by running Software Update</p>
+<h3>Step 2: Download and Install Scala</h3>
+<p>Downloads for Scala are available for multiple platforms from the <a href="http://www.scala-lang.org/downloads">Scala website</a>. The
+    download does not include an installer. You can place the files anywhere, you just need to ensure the <code>scala/bin</code> directory 
+    is on your path for your operating system. You can see further instructions for doing this in the <code>doc/README</code> file in the 
+    Scala distribution you downloaded.</p>
+<p>If everything is set up properly, you should be able to enter the scala interpreter from the command prompt on your operating system
+    by typing <code>scala</code> from the command prompt. If you get an error saying scala isn't found, you may not have added it to your
+    path properly. Be sure to check the <code>doc/README</code> file. You should see something like the following:
+<pre class="prettyprint">new-host-4:~ username$ scala
+    Welcome to Scala version 2.9.1-1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_29).
+    Type in expressions to have them evaluated.
+    Type :help for more information.
+
+    scala&gt;</pre>
+<h3>Step 3: Download DataExpress </h3>
+<p>Visit our <a href="/download">download page</a> to get the latest version of DataExpress. You can save the file anywhere for
+ the time being (we will move it into position for the purposes of the tutorial in a minute).</p>
+ <p>At this point, you have most of what you need to begin using DataExpress. The rest of this guide will walk through some basic examples
+     using the Scala interpreter and a test database using SQLite.</p>
+<h3>Step 4: Download JDBC Drivers for your Databases <span class="label">Optional</span></h3>
+To keep things simple for demonstration purposes, we are going to be using two <a href="http://sqlite.org/">SQLite databases</a>. SQLite support
+is bundled into DataExpress thanks to <a href="http://www.zentus.com/sqlitejdbc/">David Crawshaw's JDBC driver</a>. If that's fine with you, 
+feel free to skip the rest of this step.</p>
+<p>Part of the fun of DataExpress is (hopefully) effortless movement of data between database platforms. If you would like to swap 
+out the target SQLite database for an Oracle, MySQL, Postgres, or SQL Server database feel free to do so. We just didn't want to put too
+many barriers up for getting people acquainted with the tool. If you use a commercial database, you'll need to supply your own driver. 
+Below is a comprehensive list of databases and drivers supported by DataExpress:</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Database Platform</th>
+      <th>Version Tested</th>
+      <th>Download URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>Microsoft SQL Server</td>
+        <td>MS SQL Server 2008 R2</td>
+        <td><a href="http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=11774">Download</a></td>
+    <tr>
+        <td>MySQL</td>
+        <td>5.1.19</td>
+        <td><span class="label label-success">Included  </span></td>
+    </tr>
+    <tr>
+        <td>Oracle</td>
+        <td>11g (11.2.0.3)</td>
+        <td><a href="http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html">Download</a></td>
+    </tr>
+    <tr>
+        <td>PostgreSQL</td>
+        <td>9.1</td>
+        <td><span class="label label-success">Included</span></td>
+    </tr>
+    <tr>
+        <td>SQLite</td>
+        <td>3</td>
+        <td><span class="label label-success">Included</span></td>
+    </tr>   
+        
+  </tbody>
+</table>
+
+<div class="alert alert-info">
+<p>While we would love to distribute DataExpress as a self-contained application, the various licenses associated with commercial 
+    database drivers make this difficult to do easily. The source code
+    distribution for DataExpress includes a build script that allows you to bundle all dependencies into a single .jar file for convenience.
+    While we can't distribute this .jar ourselves, it's fairly painless to create on your own see the section 
+    <a href="#build-from-source">Building From Source</a> below.
+</p>
+
+        
+</div>
+
+
+<h3>Step 5: Prepare a working directory</h3>
+<p>For the purposes of the tutorial, we are going to create a directory to hold the various files that we'll need.<p>
+-properties files (include as downloads?)
+-database jars
 -Test installation
 -Get the test database
 -Set up database properties file (provide download links to ones for others)
@@ -40,4 +122,7 @@ transformation logic
 <h2>Working with DataExpress Scripts</h2>
 </div>
 Introduce scripting and show how to set up the classpath so JDBC drivers can work.
+<h2>Learning More</h2>
+Refer people to chapter 1 of "programming scala" ebook on the o'reilly website: http://ofps.oreilly.com/titles/9780596155957/IntroducingScala.html
+</div>
 {% endblock %}
