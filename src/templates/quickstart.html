@@ -9,31 +9,31 @@
 </div>
 <h3>Step 1: Install Java</h3>
 <p>You are likely to have the Java runtime on your machine already, but if you need to install
-    it, you can download it (version 1.5 or greater) 
+    it, you can download it (version 1.6 or greater) 
     <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre-7u3-download-1501631.html">directly from Oracle</a>.</p>
     <p><span class="label label-info">Mac OS X Note</span></p>
-    <p>If you are running Mac OS X, the Java runtime is shipped by Apple. You can ensure it is installed by running Software Update</p>
+    <p>If you are running Mac OS X, the Java runtime is shipped by Apple. You can ensure it is installed by running Software Update.</p>
 <h3>Step 2: Download and Install Scala</h3>
 <p>Downloads for Scala are available for multiple platforms from the <a href="http://www.scala-lang.org/downloads">Scala website</a>. The
     download does not include an installer. You can place the files anywhere, you just need to ensure the <code>scala/bin</code> directory 
     is on your path for your operating system. You can see further instructions for doing this in the <code>doc/README</code> file in the 
     Scala distribution you downloaded.</p>
-<p>If everything is set up properly, you should be able to enter the scala interpreter from the command prompt on your operating system
-    by typing <code>scala</code> from the command prompt. If you get an error saying scala isn't found, you may not have added it to your
-    path properly. Be sure to check the <code>doc/README</code> file. You should see something like the following:
+<p>Test your setup by typing <code>scala</code> from the command prompt. You should see something like the following: 
 <pre class="prettyprint">new-host-4:~ username$ scala
-    Welcome to Scala version 2.9.1-1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_29).
-    Type in expressions to have them evaluated.
-    Type :help for more information.
+Welcome to Scala version 2.9.1-1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_29).
+Type in expressions to have them evaluated.
+Type :help for more information.
 
-    scala&gt;</pre>
+scala&gt;</pre>
+    
+    <p>If you get an error saying scala isn't found, you may not have added it to your
+    path properly. Be sure to check the <code>doc/README</code> file.</p>
 <h3>Step 3: Download DataExpress </h3>
 <p>Visit our <a href="/download">download page</a> to get the latest version of DataExpress. You can save the file anywhere for
  the time being (we will move it into position for the purposes of the tutorial in a minute).</p>
- <p>At this point, you have most of what you need to begin using DataExpress. The rest of this guide will walk through some basic examples
-     using the Scala interpreter and a test database using SQLite.</p>
+ <p>At this point, you have most of what you need to begin using DataExpress.</p>
 <h3>Step 4: Download JDBC Drivers for your Databases <span class="label">Optional</span></h3>
-To keep things simple for demonstration purposes, we are going to be using two <a href="http://sqlite.org/">SQLite databases</a>. SQLite support
+To keep things simple for demonstration purposes, we are going to be using two <a href="http://sqlite.org/">SQLite</a> databases. SQLite support
 is bundled into DataExpress thanks to <a href="http://www.zentus.com/sqlitejdbc/">David Crawshaw's JDBC driver</a>. If that's fine with you, 
 feel free to skip the rest of this step.</p>
 <p>Part of the fun of DataExpress is (hopefully) effortless movement of data between database platforms. If you would like to swap 
@@ -84,20 +84,54 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
     While we can't distribute this .jar ourselves, it's fairly painless to create on your own see the section 
     <a href="#build-from-source">Building From Source</a> below.
 </p>
-
-        
 </div>
 
-
 <h3>Step 5: Prepare a working directory</h3>
-<p>For the purposes of the tutorial, we are going to create a directory to hold the various files that we'll need.<p>
--properties files (include as downloads?)
--database jars
--Test installation
--Get the test database
--Set up database properties file (provide download links to ones for others)
--Introduce Scala Interpreter
+<p>For the purposes of the tutorial, we are going to create a directory to hold the various files that we'll need:
+    <ol>
+        <li>Create a directory called <code>de_tutorial</code>.</li>
+        <li>Now create two subdirectories: <code>lib</code> and <code>conf</code>.</li>
+        <li>Download the following properties files: <a href=#>source.properties</a> and <a href=#>target.properties</a> to <code>de_tutorial/conf</code>
+             (See the note below if you want to use something other than SQLite).</li>
+        <li>Copy the DataExpress <code>.jar</code> file you downloaded in step 3 above to <code>de_tutorial/lib</code>.</li>
+        <li>Download <a href=#>target_database_setup.scala</a> to the root of <code>de_tutorial</code></li>
+        <li>Let's test the installation and get some starter data loaded into our source database. 
+    </ol>
+        
+        
+     <div class="alert alert-info">
+         <p><strong>Using a Different Relational Database</strong></p>
+         <p>DataExpress uses Java properties files to store database credentials. This allows you to write your scripts without hard-coding usernames, passwords,
+            and server names into the script.</p>
+        <p>If you would like to use something other than SQLite, take a look at our <a href=#>suggested properties files</a> 
+        for other supported databases. The tutorial is designed to work regardless of database platform. For ease of use, make
+        sure you keep the same names for the properties files. 
+        <p><span class="label label-info">Important</span></p>
+        <p>If you're going to use one of the 
+        supported commercial databases, make sure to deposit the JDBC driver <code>.jar</code> files in the <code>de_tutorial/lib</code></p>
+    </div>
+
 </pre>
+<div class="page-header">
+<h2>Loading Test Data</h2>
+</div>
+<p>In this demo we will have two databases: <code>source</code> and <code>target</code>. We will test our setup by executing a Scala script that uses DataExpress to load
+     some demo data into a few tables in our <code>source</code> database.</p> from the root <code>de_tutorial</code> directory, run the following command from 
+     the command prompt:</p>
+     
+<span class="label label-inverse">Windows</span>
+<pre>
+scala -cp"lib\*;" source_database_setup.scala
+</pre>
+
+<span class="label label-inverse">Linux/OS X</span>
+<pre>
+scala -cp"lib/*" source_database_setup.scala
+</pre>
+<p>The <code>-cp</code> command line switch tells Scala to look in the <code>lib</code> directory for any dependencies that it can't find on the Java classpath.
+    You can remove this restriction if you set a classpath environment variable and deposit DataExpress and any other libraries you might need to a location listed there.</p>
+<p>If you saw the following output, then the database tables were set up correctly:</p>
+<pre>TODO: put the output here</pre>
 <div class="page-header">
 <h2>Copying a Table</h2>
 </div>
