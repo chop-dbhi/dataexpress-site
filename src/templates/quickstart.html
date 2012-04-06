@@ -9,7 +9,7 @@
 </div>
 <h3>Step 1: Install Java</h3>
 <p>You are likely to have the Java runtime on your machine already, but if you need to install
-    it, you can download it (version 1.6 or greater) 
+    it, you can download it (version 1.6     or greater) 
     <a href="http://www.oracle.com/technetwork/java/javase/downloads/jre-7u3-download-1501631.html">directly from Oracle</a>.</p>
     <p><span class="label label-info">Mac OS X Note</span></p>
     <p>If you are running Mac OS X, the Java runtime is shipped by Apple. You can ensure it is installed by running Software Update.</p>
@@ -28,6 +28,7 @@ scala&gt;</pre>
     
     <p>If you get an error saying scala isn't found, you may not have added it to your
     path properly. Be sure to check the <code>doc/README</code> file.</p>
+    <p>To quit, just type <code>:quit</code> at the prompt.</p>
 <h3>Step 3: Download DataExpress </h3>
 <p>Visit our <a href="/download">download page</a> to get the latest version of DataExpress. You can save the file anywhere for
  the time being (we will move it into position for the purposes of the tutorial in a minute).</p>
@@ -94,7 +95,7 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
         <li>Download the following properties files: <a href=#>source.properties</a> and <a href=#>target.properties</a> to <code>de_tutorial/conf</code>
              (See the note below if you want to use something other than SQLite).</li>
         <li>Copy the DataExpress <code>.jar</code> file you downloaded in step 3 above to <code>de_tutorial/lib</code>.</li>
-        <li>Download <a href=#>target_database_setup.scala</a> to the root of <code>de_tutorial</code></li>
+        <li>Download <a href=#>source_database_setup.scala</a> to the root of <code>de_tutorial</code></li>
         <li>Let's test the installation and get some starter data loaded into our source database. 
     </ol>
         
@@ -121,21 +122,98 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
      
 <span class="label label-inverse">Windows</span>
 <pre>
-scala -cp"lib\*;" source_database_setup.scala
+scala -cp "lib\*;" source_database_setup.scala
 </pre>
 
 <span class="label label-inverse">Linux/OS X</span>
 <pre>
-scala -cp"lib/*" source_database_setup.scala
+scala -cp "lib/*" source_database_setup.scala
 </pre>
 <p>The <code>-cp</code> command line switch tells Scala to look in the <code>lib</code> directory for any dependencies that it can't find on the Java classpath.
     You can remove this restriction if you set a classpath environment variable and deposit DataExpress and any other libraries you might need to a location listed there.</p>
 <p>If you saw the following output, then the database tables were set up correctly:</p>
-<pre>TODO: put the output here</pre>
+<pre>Creating table 'presidents'...
+Inserting rows into presidents
+You're using SQLite, so we need to clean up the dates a little
+Success!</pre>
 <div class="page-header">
 <h2>Copying a Table</h2>
 </div>
--Show example of copy from one db to another using DSL
+<p>We're going to use the Scala interpreter for our examples. The interpreter lets you interactively type Scala code and see the output immediately. To launch
+    the interpreter do the following:</p>
+<span class="label label-inverse">Windows</span>
+<pre>
+scala -cp "lib\*;"
+</pre>
+
+<span class="label label-inverse">Linux/OS X</span>
+<pre>
+scala -cp "lib/*"
+</pre>
+<p>You'll see the same screen you saw above when we tested the installation.</p>
+<p>Let's get started!</p>
+<p>First we need to import some of the libraries we need. Execute each import statement below:
+<pre>
+import edu.chop.cbmi.dataExpress.dsl.ETL._
+import edu.chop.cbmi.dataExpress.dsl.{ETL}
+import edu.chop.cbmi.dataExpress.dsl.stores.{SqlDb}
+</pre>
+
+<p>Most actions in DataExpress are designed to work with one or more databases acting as a source and another
+    database acting as a target. You connect to the database by registering a new <code>DataStore</code>:
+<pre>
+register store SqlDb("conf/source.properties") as "source"
+register store SqlDb("conf/target.properties") as "target"
+</pre>
+<p>Above we set up a table called "presidents" in the source database. We are going to copy
+that table from the source into a brand new table called presidents_copy in our target database 
+using the following code:</p>
+<pre>
+commit_on_success("target"){ 
+      copy table "presidents" from "source" to "target" create "presidents_copy"
+}
+</pre>
+
+<p>If you've done everything right, your whole session will look something like this:</p>
+<pre>
+Welcome to Scala version 2.9.1-1 (Java HotSpot(TM) 64-Bit Server VM, Java 1.6.0_31).
+Type in expressions to have them evaluated.
+Type :help for more information.
+
+scala> import edu.chop.cbmi.dataExpress.dsl.ETL._
+import edu.chop.cbmi.dataExpress.dsl.ETL._
+
+scala> import edu.chop.cbmi.dataExpress.dsl.{ETL}
+import edu.chop.cbmi.dataExpress.dsl.ETL
+
+scala> import edu.chop.cbmi.dataExpress.dsl.stores.{SqlDb}
+import edu.chop.cbmi.dataExpress.dsl.stores.SqlDb
+
+scala> register store SqlDb("conf/source.properties") as "source"
+res1: edu.chop.cbmi.dataExpress.dsl.stores.Store = edu.chop.cbmi.dataExpress.dsl.stores.SqlDb@1cf536e8
+
+scala> register store SqlDb("conf/target.properties") as "target"
+res2: edu.chop.cbmi.dataExpress.dsl.stores.Store = edu.chop.cbmi.dataExpress.dsl.stores.SqlDb@8bfc25c
+
+scala> commit_on_success("target"){ 
+     |     copy table "presidents" from "source" to "target" create "presidents_copy"
+     | }
+res3: Boolean = true
+
+scala>
+</pre>
+<p>That's it! That is all you need to do to copy tables from one database to another. DataExpress tries
+as best as possible to map data types between platforms (though sometimes, it's not that easy).
+That said, this is all a bit anticlimactic since we can't actually <em>see</em> anything. We have been using the DataExpress
+DSL for these operations which is deliberately designed to be easy to work with, but the tradeoff is that it isn't
+yet as fully functional as the full DataExpress API. We will now use the API to take a look at some of the data.</p>
+<p>First, we need to close the connection to the databases. Type the following to do so:</p>
+<pre>
+"source" close
+"target" close
+</pre>
+<p>Next, we are going to import some of the things we need for the API:</p>
+
 <div class="page-header">
 <h2>Copying a SQL statement</h2>
 </div>
