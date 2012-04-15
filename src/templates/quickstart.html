@@ -30,8 +30,18 @@ scala&gt;</pre>
     path properly. Be sure to check the <code>doc/README</code> file.</p>
     <p>To quit, just type <code>:quit</code> at the prompt.</p>
 <h3>Step 3: Download DataExpress </h3>
-<p>Visit our <a href="/download">download page</a> to get the latest version of DataExpress. You can save the file anywhere for
+
+<!--TODO remove once the download page is available-->
+<p> Download the current version of DataExpress found <a href="https://github.com/downloads/cbmi/dataexpress/DataExpress-0.9.0-jar-with-dependencies.jar">here</a>.
+You can save the file anywhere for
+ the time being (we will move it into position for the purposes of the tutorial in a minute).
+</p>
+
+<!-- TODO restore once the download page is available 
+<p>Visit our <a href="#">download page</a> to get the latest version of DataExpress. You can save the file anywhere for
  the time being (we will move it into position for the purposes of the tutorial in a minute).</p>
+ -->
+ 
  <p>At this point, you have most of what you need to begin using DataExpress.</p>
 <h3>Step 4: Download JDBC Drivers for your Databases <span class="label">Optional</span></h3>
 To keep things simple for demonstration purposes, we are going to be using two <a href="http://sqlite.org/">SQLite</a> databases. SQLite support
@@ -50,20 +60,25 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
     </tr>
   </thead>
   <tbody>
+  <!--
     <tr>
         <td>Microsoft SQL Server</td>
         <td>MS SQL Server 2008 R2</td>
         <td><a href="http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=11774">Download</a></td>
+    </tr>
+    -->
     <tr>
         <td>MySQL</td>
         <td>5.1.19</td>
         <td><span class="label label-success">Included  </span></td>
     </tr>
+    <!--
     <tr>
         <td>Oracle</td>
         <td>11g (11.2.0.3)</td>
         <td><a href="http://www.oracle.com/technetwork/database/enterprise-edition/jdbc-112010-090769.html">Download</a></td>
     </tr>
+    -->
     <tr>
         <td>PostgreSQL</td>
         <td>9.1</td>
@@ -92,10 +107,27 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
     <ol>
         <li>Create a directory called <code>de_tutorial</code>.</li>
         <li>Now create two subdirectories: <code>lib</code> and <code>conf</code>.</li>
+        
+        <!--TODO remove this once we have a download page setup -->
+        <li> Save the content found <a href=https://github.com/downloads/cbmi/dataexpress/source.properties>here</a> to a file named <code>source.properties</code> and the text
+        found <a href=https://github.com/downloads/cbmi/dataexpress/target.properties>here</a> to file named <code>target.properties</code>. Put both files in the directory
+        <code>de_tutorial/conf</code>
+        
+        <!-- TODO restore this once we have a download page setup 
         <li>Download the following properties files: <a href=#>source.properties</a> and <a href=#>target.properties</a> to <code>de_tutorial/conf</code>
              (See the note below if you want to use something other than SQLite).</li>
+        -->
+        
         <li>Copy the DataExpress <code>.jar</code> file you downloaded in step 3 above to <code>de_tutorial/lib</code>.</li>
+        
+        <!--TODO remove this once we have a download page setup -->
+        <li> Save the content found <a href=https://github.com/downloads/cbmi/dataexpress/source_database_setup.scala>here</a> to a file named <code>source_database_setup.scala</code>
+        and put it in the directory <code>de_tutorial</code>
+        
+        <!-- TODO restore this once we have a download page setup 
         <li>Download <a href=#>source_database_setup.scala</a> to the root of <code>de_tutorial</code></li>
+        -->
+        
         <li>Let's test the installation and get some starter data loaded into our source database. 
     </ol>
         
@@ -104,9 +136,20 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
          <p><strong>Using a Different Relational Database</strong></p>
          <p>DataExpress uses Java properties files to store database credentials. This allows you to write your scripts without hard-coding usernames, passwords,
             and server names into the script.</p>
+       
+       <!-- TODO remove this once the downlaod page is setup -->
+       <p>If you would like to use something other than SQLite for the tutorial, you will need to create an appropriate properties file and 
+       save it in the <code>de_tutorial/conf</code> directory. The content found <b><a href=https://github.com/downloads/cbmi/dataexpress/mysql.properties>here</a></b> is appropriate for a MySQL server
+       running on the localhost on port 3306 with a database named de_tutorial. The content found <b><a href=https://github.com/downloads/cbmi/dataexpress/postgres.properties>here</a></b> is appropriate 
+       for a PostgreSQL server running on the localhost on port 5432 with a database named de_tutorial. The use of these files is described further in the following sections.
+       <i>de_tutorial</i>.
+       
+       <!-- TODO restore this once the download page is setup
         <p>If you would like to use something other than SQLite, take a look at our <a href=#>suggested properties files</a> 
         for other supported databases. The tutorial is designed to work regardless of database platform. For ease of use, make
         sure you keep the same names for the properties files. 
+       -->
+       
         <p><span class="label label-info">Important</span></p>
         <p>If you're going to use one of the 
         supported commercial databases, make sure to deposit the JDBC driver <code>.jar</code> files in the <code>de_tutorial/lib</code></p>
@@ -118,7 +161,7 @@ Below is a comprehensive list of databases and drivers supported by DataExpress:
 </div>
 <p>In this demo we will have two databases: <code>source</code> and <code>target</code>. We will test our setup by executing a Scala script that uses DataExpress to load
      some demo data into a few tables in our <code>source</code> database.</p> from the root <code>de_tutorial</code> directory, run the following command from 
-     the command prompt:</p>
+     the command prompt (see note below if your are using something other than SQLite):</p>
      
 <span class="label label-inverse">Windows</span>
 <pre>
@@ -136,6 +179,25 @@ scala -cp "lib/*" source_database_setup.scala
 Inserting rows into presidents
 You're using SQLite, so we need to clean up the dates a little
 Success!</pre>
+
+<div class="alert alert-info">
+<p><strong>Using a Different Relational Database</strong></p>
+If you are using a Relational Database other than SQLite for this tutorial then executing the <code>source_database_setup.scala</code> command must be 
+modified to include arguments for the source and target Java properties files as shown here:
+<br/>
+<span class="label label-inverse">Windows</span>
+<pre>
+scala -cp "lib\*;" source_database_setup.scala "X.properties" "Y.properties"
+</pre>
+<span class="label label-inverse">Linux/OS X</span>
+<pre>
+scala -cp "lib/*" source_database_setup.scala "X.properties" "Y.properties"
+</pre>
+where X and Y are the name of the source and target properties files respectively. The <code>source_database_setup.scala</code> script requires that these
+file be placed in the <code>de_tutorial/conf</code> directory. If you are using the same database for both the source and target, simply specify the same connection properties 
+file name for both X and Y.
+</div>
+
 <div class="page-header">
 <h2>Copying a Table</h2>
 </div>
@@ -143,20 +205,21 @@ Success!</pre>
     the interpreter do the following:</p>
 <span class="label label-inverse">Windows</span>
 <pre>
-scala -cp "lib\*;"
+scala -Xexperimental -cp "lib\*;"
 </pre>
 
 <span class="label label-inverse">Linux/OS X</span>
 <pre>
-scala -cp "lib/*"
+scala -Xexperimental -cp "lib/*"
 </pre>
 <p>You'll see the same screen you saw above when we tested the installation.</p>
 <p>Let's get started!</p>
 <p>First we need to import some of the libraries we need. Execute each import statement below:
 <pre>
 import edu.chop.cbmi.dataExpress.dsl.ETL._
-import edu.chop.cbmi.dataExpress.dsl.{ETL}
-import edu.chop.cbmi.dataExpress.dsl.stores.{SqlDb}
+import edu.chop.cbmi.dataExpress.dsl.ETL
+import edu.chop.cbmi.dataExpress.dsl.stores.SqlDb
+import edu.chop.cbmi.dataExpress.dataModels.RichOption._
 </pre>
 
 <p>Most actions in DataExpress are designed to work with one or more databases acting as a source and another
@@ -173,6 +236,8 @@ commit_on_success("target"){
       copy table "presidents" from "source" to "target" create "presidents_copy"
 }
 </pre>
+
+
 
 <p>If you've done everything right, your whole session will look something like this:</p>
 <pre>
@@ -215,26 +280,75 @@ yet as fully functional as the full DataExpress API. We will now use the API to 
 <p>Next, we are going to import some of the things we need for the API:</p>
 
 <div class="page-header">
+<h2>Getting Data From A Table</h2>
+</div>
+<p>Now that we've seen how to copy a table, let's see how to get a table and view some of it's content. Continuing with our
+previous session in the Scala interpreter, execute the following statements</p>
+<pre>
+val the_presidents = get table "presidents" from "source"
+the_presidents foreach {row => println(row.name.asu[String])}
+val washington = the_presidents.head
+println(washington.name.asu[String])
+</pre>
+
+<p>If you're familiar with Scala, you'll recoginize the use of the <code>foreach</code> and <code>head</code> methods used in this 
+example. The object returned by the <code>get table ...</code> DSL statemnt is of type <code>DataTable</code> which has all the normal methods found in 
+a Scala collection. Each element in the a <code>DataTable</code> is a <code>DataRow</code> which extends a Scala <code>Seq</code>. In addition to 
+all the methods provided by extending <code>Seq</code>, <code>DataRow</code> also enables you to access row elements by column name using the dot notation as 
+in the example, <code>row.x</code> where <b>x</b> is any column name in the extracted table.</p>
+
+<p>If you've done everything correctly you should see output like the following</p>
+<pre>
+scala> val the_presidents = get table "presidents" from "source"
+the_presidents: edu.chop.cbmi.dataExpress.dataModels.DataTable[Any] = DataTable[id, name, party, dob, dod, term_start, term_end]
+
+scala> the_presidents foreach {row => println(row.name.asu[String])}
+dynatype: row.applyDynamic("name")()
+Abraham Lincoln
+Andrew Jackson
+Andrew Johnson
+Bill Clinton
+...
+
+scala> val washington = the_presidents.head
+washington: edu.chop.cbmi.dataExpress.dataModels.DataRow[Any] = DataRow(Some(16), Some(Abraham Lincoln), Some(Republican Party), Some(-5077018800000), Some(-3304436400000), Some(-3434295600000), Some(-3304436400000))
+
+scala> println(washington.name.asu[String])
+dynatype: $line9.$read.$iw.$iw.$iw.$iw.$iw.$iw.washington.applyDynamic("name")()
+Abraham Lincoln
+</pre>
+
+<div class="page-header">
 <h2>Copying a SQL statement</h2>
 </div>
--Show example of copying a SQL statement from one db to another using the DSL
+<div class="alert alert-info">
+<p>Please forgive our tardiness! We are still working on this section</p>
+</div>
+
 <div class="page-header">
 <h2>Copy with transform</h2>
 </div>
--Show example of copying a SQL statement from one db to another using some Scala
-transformation logic
+<div class="alert alert-info">
+<p>Please forgive our tardiness! We are still working on this section</p>
+</div>
+
 <div class="page-header">
 <h2>Copy between different database implementations</h2>
 </div>
-<pre>
-    -Users need to have an Oracle, MySQL, Postgres, or SQL Server instance handy (can point to free versions of all of them)
-    -Re-run table copy commands and verify
-</pre>
+<div class="alert alert-info">
+<p>Please forgive our tardiness! We are still working on this section</p>
+</div>
+
 <div class="page-header">
 <h2>Working with DataExpress Scripts</h2>
 </div>
-Introduce scripting and show how to set up the classpath so JDBC drivers can work.
+<div class="alert alert-info">
+<p>Please forgive our tardiness! We are still working on this section</p>
+</div>
+
+<!--
 <h2>Learning More</h2>
 Refer people to chapter 1 of "programming scala" ebook on the o'reilly website: http://ofps.oreilly.com/titles/9780596155957/IntroducingScala.html
+-->
 </div>
 {% endblock %}

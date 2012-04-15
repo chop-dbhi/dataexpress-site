@@ -10,6 +10,10 @@ MANIFEST
 .watch-pid
 .sass-cache
 
+#ignore eclipse project files
+.project
+.pydevproject
+
 # ignore local settings file intended for environment-specific settings
 local_settings.py
 
