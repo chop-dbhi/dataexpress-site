@@ -1,0 +1,15 @@
+{
+    "_": {
+        "repo_url": "git://github.com/cbmi/dataexpress-site.git",
+        "supervisor_conf_dir": "/etc/supervisor.d",
+        "path": "/home/devuser/webapps/dataexpress-site-env/dataexpress-site"
+    },
+    "development": {
+        "host_string": "rescows02.research.chop.edu",
+        "nginx_conf_dir": "/etc/nginx/conf.d"
+    },
+    "production": {
+        "host_string": "tiu.research.chop.edu",
+        "apache_conf_dir": "/etc/httpd/conf.d"
+    }
+}

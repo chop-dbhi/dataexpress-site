@@ -18,6 +18,8 @@
     // a reference here for any scripts that need to include cilantro
     // modules
     paths: {},
+
+    name: 'main',
     
     // if the project requires any custom javascript modules, they can be
     // listed here. below shows an example for a 'main' module. if this is

@@ -264,7 +264,6 @@ SESSION_SAVE_EVERY_REQUEST = False
 
 USE_ETAGS = True
 SEND_BROKEN_LINK_EMAILS = False
-IGNORABLE_404_ENDS += ('robots.txt', 'favicon.ico')
 
 # django-registration2
 # REGISTRATION_ACTIVATION_DAYS = 0
