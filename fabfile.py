@@ -110,7 +110,7 @@ def merge_commit(commit):
         if '@' in commit:
             branch, commit = commit.split('@')
             run('git checkout {0}'.format(branch))
-        run('git merge {0}'.format(commit))
+        run('git merge origin/{0}'.format(commit))
         run('find . -type f | grep .pyc | xargs rm -f')
 
 
