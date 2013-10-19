@@ -298,6 +298,139 @@ Abraham Lincoln
 <div class="alert alert-info">
 <p>Please forgive our tardiness! We are still working on this section</p>
 </div>
+<h1>Advanced Examples</h1>
+<div class="page-header">
+<h2>Copy with temporary staging table</h2>
+</div>
+<p>Here we will copy a table between two databases, using the destination database to stage our final table. We will also look at how to apply conditional logic depending
+on the type of database backend.<p>
+<p> For context, let's create a contrived president tracking scenario. We have two databases, the source database from the above examples (we will pretend this is an upstream system) and a target (again, the same as above), which is our local system. Each has a table that tracks presidents. Our local database table
+has only has a subset of the columns from the source database: id, name, party, birthday (instead of dob), and one additional column, created, which is a timestamp for when the record was created. Let's go ahead and create this table and add our first president.
+<pre>
+val target2Store = SqlDb("conf/target.properties")
+
+target2Store.backend.connect()
+target2Store.backend.execute("CREATE TABLE presidents_timestamp (id INTEGER, name VARCHAR(100), party VARCHAR(100), birthday DATE, created DATE);")
+target2Store.backend.execute("INSERT INTO presidents_timestamp VALUES (1, 'George Washington', 'Independent', date('1732-02-22'), date('now'))")
+target2Store.backend.commit()
+</pre>
+<p> We now have a new table with one president in it. In the contrived workflow, our downstream presidents database is updated with new presidents as they are elected, and we need to update our local database. We want an ETL script that copies the presidents from the downstream table and adds them to our local table if they 
+do not yet exist.  Our approach will be to copy a subset of the source database to our local database into a staging table. We will then copy from the staging table in our local database to the real table in our local database, only adding presidents we do not already have. Also note, that while not necessary in 
+this example (since we know we are using sqlite), the code examines the SqlDB object we created to find out what type the backend is. It then uses this information to determine the command to use to get the current time in that type of database.
+</p>
+<pre>
+import edu.chop.cbmi.dataExpress.backends._
+
+// We previously created target2Store, but now we register it for use within the DSL
+register store target2Store as "target2"
+
+// This should work for postgres, mysql and sqlite but is not exhaustive
+val time = target2Store match {
+  case s:SqlDb => s.backend match {
+    case sl:SqLiteBackend => "date('now')"
+    case _ =>"now()"
+  }
+  case _ => "now()"
+}
+
+val staging_query = """select id, name, party, dob as birthday from presidents"""
+
+val timestamp_query = s"""select id, name, party, birthday,
+                      $time as created from staging_presidents
+                      where name not in (select name from presidents_timestamp)"""
+
+commit_on_success("target") {
+  copy query staging_query from "source" to "target" create "staging_presidents"
+}
+
+// Note that target1 and target2 are the same database, 
+// but we need two connections because we are copying and saving
+// to the same database and that cannot be done over the same connection
+commit_on_success("target2") {
+  copy query timestamp_query from "target" to "target2" append "presidents_timestamp"
+}
+
+// Note if we want to delete the staging table, we can do so.
+// It is left in for the demo for you to examine
+//target2Store.backend.connect()
+//target2Store.backend.execute("drop table presidents_staging")
+//target2Store.backend.commit()
+</pre>
+
+<div class="page-header">
+    <h2>XML file to database by subclassing DataTable</h2>
+</div>
+<p> It may be useful in some situations to subclass DataTable. For example, one way to create a table without first creating an in-memory list would be 
+to subclass DataTable and override the iterator methods so that it creates each row on demand. Let's take a look at an example that shows how to do this</p>
+<p> We will start with an XML file containing the same presidents information as the source database created by the setup script. This can be found in the presidents.xml file in the de_tutorial package. We will than recreate the source sqlite
+database from the XML file.  
+
+<p> First set up some variables we will need: <code>col_names</code> is a list of the column names for our table, <code>c</code> is a variable that is currently necessary for subclassing DataTable, and <code>df</code> is used to parse the date strings in the XML file. </p>
+<pre>
+val col_names = List("id", "name", "party", "dob", "dod", "term_start", "term_end")
+
+object c extends ColumnNameGenerator {
+   def generate_column_names = col_names
+}
+val df = new java.text.SimpleDateFormat("yyyy-MM-dd")
+</pre>
+<p> We then subclass DataTable. The most important method here is <code>next</code> which we use to create DataRows on the fly from our XML file.</p>
+
+<pre>
+class PresidentsTable extends DataTable[Any](c) {
+
+    val data = XML.loadFile("src/main/resources/presidents.xml")
+    val presidents = data \\ "president"
+
+    val dataIterator = presidents.toIterator
+
+    lazy val dataTypes = {
+      Seq[DataType]()
+    }
+
+    override def col(name: String) : Iterator[Option[String]]  = ???
+
+    override def col_as[G](name: String)(implicit m: Manifest[G]) : Iterator[Option[G]] = ???
+
+    override def col_asu[G](name: String)(implicit m: Manifest[G]) : Iterator[G] = ???
+
+    override def hasNext = dataIterator.hasNext
+
+    override def next:DataRow[Any] = {
+      val n = dataIterator.next
+      DataRow(col_names)(List(n \ "id" text,
+        n \ "name" text,
+        n \ "party" text, df.parse(n \ "dob" text),
+        if ((n \ "dod" text).length > 0) df.parse(n \ "dod" text) else null,
+        if ((n \ "term_start" text).length > 0) df.parse(n \ "term_start" text) else null,
+        if ((n \ "term_end" text).length > 0) df.parse(n \ "term_end" text) else null) map (Some(_)))
+    }
+}
+</pre>
+<p>Finally, we create an instance of our DataTable and a connection to a sqlite database, where we then save the table.</p>
+<pre>
+val table =  new PresidentsTable()
+
+// We can create a Properties object dynamically instead of reading from a file.
+val props = new Properties()
+props.put("jdbcUri", "jdbc:sqlite:target/presidents.sqlite")
+
+val db = new SqLiteBackend(props)
+
+db.connect()
+db.createTable("presidents", col_names, dataTypes = List(IntegerDataType,
+  CharacterDataType(100, false),
+  CharacterDataType(100, false),
+  DateDataType,
+  DateDataType,
+  DateDataType,
+  DateDataType))
+
+db.batchInsert("presidents", table)
+db.commit()
+db.close()
+</pre>
+<p>At this point, there is a new database called presidents.sqlite that contains a presidents table that is identical to the one in source.sqlite.</p>
 
 <div class="page-header">
 <h2>Working with DataExpress Scripts</h2>
